@@ -275,50 +275,75 @@ document.addEventListener("DOMContentLoaded", () => {
   const filterButtons = document.querySelectorAll("[data-filter]");
   const undoBtn = document.getElementById("undoBtn");
   const clearBtn = document.getElementById("clearBtn");
+  const toggleCheckbox = document.getElementById("toggle_checkbox");
 
+  // Theme load
+  const savedMode = localStorage.getItem("theme");
+  if (savedMode === "dark") {
+    document.body.classList.add("dark-mode");
+    document.body.classList.remove("light-mode");
+    toggleCheckbox.checked = true;
+  } else {
+    document.body.classList.add("light-mode");
+    document.body.classList.remove("dark-mode");
+    toggleCheckbox.checked = false;
+  }
+
+  // Toggle theme
+  toggleCheckbox.addEventListener("change", () => {
+    if (toggleCheckbox.checked) {
+      document.body.classList.add("dark-mode");
+      document.body.classList.remove("light-mode");
+      localStorage.setItem("theme", "dark");
+    } else {
+      document.body.classList.add("light-mode");
+      document.body.classList.remove("dark-mode");
+      localStorage.setItem("theme", "light");
+    }
+  });
+
+  // Form add todo
   form.addEventListener("submit", (e) => {
     e.preventDefault();
-    const value = form.todo.value.trim();
-    if (!value) {
-      showAlert("Todo tidak boleh kosong!", "warning");
-      return;
-    }
-    if (isDuplicateTitle(value)) {
-      showAlert("Todo sudah ada!", "danger");
-      return;
-    }
-    pushHistory();
-    todos.unshift({ id: generateId(), todo: value, completed: false });
+    const input = form.todo;
+    const text = input.value.trim();
+    if (text === "") return showAlert("Input tidak boleh kosong", "danger");
+
+    todos.push({ text, completed: false });
     saveTodos();
     renderTodos();
-    form.todo.value = "";
-    form.todo.focus();
-    showAlert("Todo berhasil ditambahkan!", "success");
+    input.value = "";
+    showAlert("Todo ditambahkan", "success");
   });
 
+  // Search
   searchInput.addEventListener("input", (e) => {
-    searchQuery = e.target.value;
-    renderTodos();
+    renderTodos(
+      document.querySelector("[data-filter].active")?.dataset.filter || "all",
+      e.target.value
+    );
   });
 
+  // Filter
   filterButtons.forEach((btn) => {
     btn.addEventListener("click", () => {
-      filter = btn.dataset.filter;
-      setActiveFilterButton();
-      renderTodos();
+      filterButtons.forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+      renderTodos(btn.dataset.filter, searchInput.value);
     });
   });
 
+  // Undo
   undoBtn.addEventListener("click", undo);
 
+  // Clear all
   clearBtn.addEventListener("click", () => {
-    showConfirm("Apa kamu yakin ingin menghapus semua todo?", () => {
-      pushHistory();
-      todos = [];
-      saveTodos();
-      renderTodos();
-      showAlert("Semua todo telah dihapus!", "danger");
-    });
+    if (todos.length === 0) return;
+    undoStack.push([...todos]);
+    todos = [];
+    saveTodos();
+    renderTodos();
+    showAlert("Semua todo dihapus", "danger");
   });
 
   setActiveFilterButton();
