@@ -1,0 +1,307 @@
+/* custom.css */
+
+/* drag and drop styles */
+.drag-over {
+  border: 2px dashed #0d6efd;
+}
+
+.todo-handle {
+  cursor: grab;
+  margin-right: 8px;
+}
+
+.dragging {
+  opacity: 0.5;
+}
+
+/* animasi reorder */
+#todoList li {
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+/* whitespace bawah todolist */
+#todoList::after {
+  content: "";
+  display: block;
+  height: 100px; /* bisa diubah sesuai kebutuhan */
+}
+
+/* container filter (pengganti inline style min-width) */
+.filter-container {
+  min-width: 280px;
+}
+
+/* responsive filter */
+@media (max-width: 576px) {
+  .filter-container {
+    min-width: 100%;
+    margin-top: 10px;
+  }
+}
+
+/* responsive tombol tambah */
+@media (max-width: 576px) {
+  #addTodoBtn {
+    width: 100%;
+    margin-top: 10px;
+  }
+}
+
+/* responsive input */
+@media (max-width: 576px) {
+  #todoInput {
+    width: 100%;
+  }
+}
+
+/* responsive search */
+@media (max-width: 576px) {
+  #searchInput {
+    width: 100%;
+    margin-top: 10px;
+  }
+}
+
+/* responsive tombol clear completed */
+@media (max-width: 576px) {
+  #clearCompletedBtn {
+    width: 100%;
+    margin-top: 10px;
+  }
+}
+
+/* responsive tombol clear all */
+@media (max-width: 576px) {
+  #clearAllBtn {
+    width: 100%;
+    margin-top: 10px;
+  }
+}
+
+/* custom alert */
+.custom-alert {
+  position: fixed;
+  top: -100px; /* disembunyikan di luar layar */
+  left: 50%;
+  transform: translateX(-50%);
+  background: #dc3545; /* default merah */
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  transition: all 0.5s ease;
+  z-index: 2000;
+}
+
+/* saat aktif */
+.custom-alert.show {
+  top: 20px;
+  opacity: 1;
+}
+
+/* variasi warna */
+.custom-alert.success {
+  background: #28a745;
+}
+.custom-alert.warning {
+  background: #ffc107;
+  color: #000;
+}
+.custom-alert.info {
+  background: #17a2b8;
+}
+
+/* background gelap transparan */
+.custom-confirm {
+  display: none; /* hidden default */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  justify-content: center;
+  align-items: center;
+  z-index: 3000;
+}
+
+/* box konfirmasi */
+.confirm-box {
+  background: #fff;
+  padding: 20px 25px;
+  border-radius: 12px;
+  max-width: 320px;
+  text-align: center;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  animation: fadeIn 0.3s ease;
+}
+
+.confirm-box p {
+  font-size: 15px;
+  margin-bottom: 15px;
+  font-weight: 500;
+}
+
+.confirm-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+@keyframes fadeIn {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.confirm-actions button {
+  flex: 1;
+  padding: 8px 0;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.confirm-actions button.confirm {
+  background: #dc3545;
+  color: #fff;
+}
+.confirm-actions button.confirm:hover {
+  background: #e55353; /* lebih soft daripada terlalu gelap */
+}
+.confirm-actions button.cancel {
+  background: #6c757d;
+  color: #fff;
+}
+.confirm-actions button.cancel:hover {
+  background: #868e96; /* lebih soft */
+}
+
+/* animasi alert */
+@keyframes slideDown {
+  from {
+    top: -100px;
+    opacity: 0;
+  }
+  to {
+    top: 20px;
+    opacity: 1;
+  }
+}
+@keyframes slideUp {
+  from {
+    top: 20px;
+    opacity: 1;
+  }
+  to {
+    top: -100px;
+    opacity: 0;
+  }
+}
+
+/* animasi tombol */
+button {
+  transition: transform 0.1s ease;
+}
+button:active {
+  transform: scale(0.95);
+}
+
+/* animasi checkbox */
+input[type="checkbox"] {
+  transition: transform 0.1s ease;
+}
+input[type="checkbox"]:active {
+  transform: scale(0.9);
+}
+
+/* animasi hover item */
+#todoList li:hover {
+  background: #f8f9fa;
+  transition: background 0.3s ease;
+}
+
+/* === HOVER BUTTON SESUAI COLOR THEORY, DENGAN SHADE LEBIH SOFT === */
+
+/* tombol primary (filter, default action) */
+.btn-primary:hover,
+.filter-container button:hover,
+.drag-icon:hover,
+.todo-handle:hover,
+#searchIcon:hover {
+  background: #3d8bfd !important; /* biru lebih soft */
+  color: #fff !important;
+}
+
+/* tombol success (save, add, complete) */
+.btn-success:hover,
+.save-icon:hover,
+.complete-icon:hover,
+#addIcon:hover {
+  background: #45c06f !important; /* hijau lebih soft */
+  color: #fff !important;
+}
+
+/* tombol danger (delete, clear) */
+.btn-danger:hover,
+#clearCompletedBtn:hover,
+#clearAllBtn:hover,
+.delete-icon:hover,
+.cancel-icon:hover {
+  background: #e55353 !important; /* merah soft */
+  color: #fff !important;
+}
+
+/* tombol warning (incomplete, caution) */
+.btn-warning:hover,
+.incomplete-icon:hover {
+  background: #f6c343 !important; /* kuning lebih pekat */
+  color: #000 !important;
+}
+
+/* tombol secondary (cancel, netral) */
+.btn-secondary:hover {
+  background: #868e96 !important; /* abu soft */
+  color: #fff !important;
+}
+
+/* tombol info */
+.btn-info:hover {
+  background: #3bc9db !important; /* biru cyan soft */
+  color: #fff !important;
+}
+
+/* animasi hover tombol confirm */
+.confirm-actions button:hover {
+  transform: scale(1.05);
+  transition: transform 0.2s ease;
+}
+/* efek todo saat di-drag */
+#todoList li.dragging {
+  opacity: 0.9;
+  transform: scale(1.03);
+  background: #ffffff; /* tetap putih agar kontras */
+  border: 2px solid #0d6efd; /* biru tema */
+  box-shadow: 0 8px 20px rgba(13, 110, 253, 0.4);
+  z-index: 10;
+  cursor: grabbing;
+}
+
+/* cursor grab default */
+#todoList li {
+  cursor: grab;
+}
+#todoList li:active {
+  cursor: grabbing;
+}
